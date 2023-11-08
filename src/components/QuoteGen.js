@@ -1,4 +1,11 @@
+import React, { useEffect, useState } from 'react';
+
 function QuoteGen() {
+  // State variable declaration
+  const [quote, setQuote] = useState(''); 
+  const [author, setAuthor] = useState('');
+  const [colorId, setColorId] = useState(0);
+  const [picture, setPicture] = useState("https://static.independent.co.uk/2022/06/07/13/newFile-4.jpg");
 
   // Background-color-collection
     const colors = [
@@ -44,26 +51,75 @@ function QuoteGen() {
         imageSrc: "https://static.independent.co.uk/2022/06/07/13/newFile-4.jpg"}
       ];
 
+      // Variable placeholder
       
+      // Helper Methods/functions
+
+      // Data fetching functions
+      //This executes on the first page load only once
+      useEffect(()=>{
+        GetData()
+      },[]);
+
+      //This is the function that gets the data from the API, put this in your click handler
+      const GetData = () => {
+        //This is the url that contains the data, can he that localhost:3001 on a json server as well
+        let url = "https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json";
+        // Here we request the data with the deafult GET to the url (server)
+        fetch(url).then((res)=>(res.json())).then((data) => {
+          // This variable is an array of objects
+          let dataQuotes = data.quotes; //store the quotes in a local variable (memory space)
+          // Debugging the data we just got
+          // console.log(dataQuotes[randomInt(0,dataQuotes.length)]);
+          //Update your state variables
+          setQuote(dataQuotes[randomInt(0,dataQuotes.length)].quote);
+          setAuthor(dataQuotes[randomInt(0,dataQuotes.length)].author);
+
+        });
+      };
+
+      // Random integrer generator
+      function randomInt(mn, mx) {
+        // This function excludes the maximum number, the results range from(0,max-1)
+        let w = Math.random() * (mx - mn) + mn;
+        return Math.floor(w);
+      }
+
+      //Click handler (does stuff when you click the button)
+      function handleClick() {
+        console.log("\n");
+        // Image change method call        
+        setPicture(quoteLib[randomInt(0, quoteLib.length)].imageSrc);        
+
+        // Insert here your fetch method call
+        GetData();
+        // console.log(`Quote: ${quote}, Author: ${author}`); //Debugging the state variables
+
+        // Insert here your color change function call
+        setColorId(randomInt(0,colors.length)); //update the color
+        // console.log("Color: " + colorId); //Debugging the color change
+
+      }
+
       // The tweet and tumbl buttons need to be anchors
       
     return (
         <>
           <div className="card">
-            <img src="https://static.independent.co.uk/2022/06/07/13/newFile-4.jpg" className="card-img-top" alt="A view of Mt Shasta during the fall in a lonely bus stop." />
+            <img src={picture} className="card-img-top" alt="A view of Mt Shasta during the fall in a lonely bus stop." />
             <div className="card-body">                
-              <p className="card-text" id="text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <h6 className="card-title" id="author">- Author</h6>
+              <p className="card-text" id="text">{quote}</p>
+              <h6 className="card-title" id="author">- {author}</h6>
               <div className="row">
               
                 <div className="col-3">
-                  <a href="https://twitter.com/intent/tweet?hashtags=quotes&amp;related=freecodecamp&amp;text=%22Life%20is%2010%25%20what%20happens%20to%20me%20and%2090%25%20of%20how%20I%20react%20to%20it.%22%20Charles%20Swindoll" className="btn btn-primary" id="tweet-quote">Twitter</a>
+                  <a href="https://twitter.com/intent/tweet?hashtags=quotes&amp;related=freecodecamp&amp;text=%22Life%20is%2010%25%20what%20happens%20to%20me%20and%2090%25%20of%20how%20I%20react%20to%20it.%22%20Charles%20Swindoll" className="btn btn-primary" id="tweet-quote"><i class="fa-brands fa-twitter"></i>Twitter</a>
                 </div>
                 <div className="col-3">
                   <a href="https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes,freecodecamp&caption=Charles%20Swindoll&content=Life%20is%2010%25%20what%20happens%20to%20me%20and%2090%25%20of%20how%20I%20react%20to%20it.&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button" className="btn btn-primary" id="tumblr-quote">Tumblr</a>
                 </div>
                 <div className="col-6">
-                  <button className="btn btn-primary" id="new-quote">New Quote</button>
+                  <button className="btn btn-primary" id="new-quote" onClick={handleClick}>New Quote</button>
                 </div>
 
               </div>
