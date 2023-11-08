@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faThumbsUp, faQuoteLeft, faQuoteRight, faShare} from '@fortawesome/free-solid-svg-icons';
 
 function QuoteGen() {
   // State variable declaration
@@ -100,7 +102,7 @@ function QuoteGen() {
         // console.log("Color: " + colorId); //Debugging the color change
 
       }
-
+      
       // The tweet and tumbl buttons need to be anchors
       
     return (
@@ -108,15 +110,15 @@ function QuoteGen() {
           <div className="card">
             <img src={picture} className="card-img-top" alt="A view of Mt Shasta during the fall in a lonely bus stop." />
             <div className="card-body">                
-              <p className="card-text" id="text">{quote}</p>
+              <p className="card-text" id="text"><FontAwesomeIcon icon={faQuoteLeft} /> {quote}<FontAwesomeIcon icon={faQuoteRight} /></p>
               <h6 className="card-title" id="author">- {author}</h6>
               <div className="row">
               
                 <div className="col-3">
-                  <a href="https://twitter.com/intent/tweet?hashtags=quotes&amp;related=freecodecamp&amp;text=%22Life%20is%2010%25%20what%20happens%20to%20me%20and%2090%25%20of%20how%20I%20react%20to%20it.%22%20Charles%20Swindoll" className="btn btn-primary" id="tweet-quote"><i class="fa-brands fa-twitter"></i>Twitter</a>
+                  <a href="https://twitter.com/intent/tweet?hashtags=quotes&amp;related=freecodecamp&amp;text=%22Life%20is%2010%25%20what%20happens%20to%20me%20and%2090%25%20of%20how%20I%20react%20to%20it.%22%20Charles%20Swindoll" className="btn btn-primary" id="tweet-quote"><FontAwesomeIcon icon={faShare} /> </a>
                 </div>
                 <div className="col-3">
-                  <a href="https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes,freecodecamp&caption=Charles%20Swindoll&content=Life%20is%2010%25%20what%20happens%20to%20me%20and%2090%25%20of%20how%20I%20react%20to%20it.&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button" className="btn btn-primary" id="tumblr-quote">Tumblr</a>
+                  <a href="https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes,freecodecamp&caption=Charles%20Swindoll&content=Life%20is%2010%25%20what%20happens%20to%20me%20and%2090%25%20of%20how%20I%20react%20to%20it.&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button" className="btn btn-primary" id="tumblr-quote"><FontAwesomeIcon icon={faThumbsUp} /> </a>
                 </div>
                 <div className="col-6">
                   <button className="btn btn-primary" id="new-quote" onClick={handleClick}>New Quote</button>
